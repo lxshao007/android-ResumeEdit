@@ -5,4 +5,8 @@ package com.example.lingxiao.resumeedit.model;
  */
 
 public class BasicInfo {
+    public String name;
+    public String email;
+
+
 }

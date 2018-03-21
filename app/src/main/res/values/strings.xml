@@ -5,4 +5,6 @@
 
     <string name="email">lingxiaoahao@gmail.com</string>
     <string name="education">education</string>
+    <string name="experience">experience</string>
+    <string name="project">project</string>
 </resources>
