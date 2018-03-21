@@ -7,4 +7,10 @@
     <string name="education">education</string>
     <string name="experience">experience</string>
     <string name="project">project</string>
+    <string name="school">school</string>
+    <string name="major">major</string>
+    <string name="start_date">start date</string>
+    <string name="end_date">end date</string>
+    <string name="courses">courses</string>
+    <string name="action_save">save</string>
 </resources>

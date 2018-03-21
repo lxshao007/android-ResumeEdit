@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/education_edit_school"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/school"/>
+
+    <EditText
+        android:id="@+id/education_edit_major"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/major"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+       <EditText
+           android:id="@+id/education_edit_starttime"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:hint="@string/start_date"/>
+
+        <EditText
+            android:id="@+id/education_edit_endtime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/end_date"/>
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/courses"/>
+
+
+</LinearLayout>
