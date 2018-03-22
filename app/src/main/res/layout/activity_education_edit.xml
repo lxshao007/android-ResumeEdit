@@ -37,6 +37,7 @@
     </LinearLayout>
 
     <EditText
+        android:id="@+id/education_edit_courses"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/courses"/>

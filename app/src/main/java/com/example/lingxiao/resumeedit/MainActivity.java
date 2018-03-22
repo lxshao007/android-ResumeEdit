@@ -1,8 +1,10 @@
 package com.example.lingxiao.resumeedit;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,71 +25,57 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private BasicInfo basicInfo;
-    private List<Education> educations;
+    private List<Education> educations = new ArrayList<>();
     private List<Experience> experiences;
     private List<Project> projects;
+
+    private static final int REQ_CODE_EDUCATION_EDIT = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        fakeDate();
         setupUI();
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQ_CODE_EDUCATION_EDIT && resultCode == Activity.RESULT_OK) {
+            Education education = data.getParcelableExtra(EducationEditActivity.KEY_EDUCATION);
+            educations.add(education);
+            setupEducationUI();
+        }
+    }
+
+    private void setupUI() {
+        setContentView(R.layout.activity_main);
+        setupEducationUI();
 
         ImageButton addEducationButton = (ImageButton) findViewById(R.id.add_education);
         addEducationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, EducationEditActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQ_CODE_EDUCATION_EDIT);
             }
         });
-    }
 
-    private void fakeDate() {
-        //basic
-        basicInfo = new BasicInfo();
-        basicInfo.name = "Lingxiao Shao";
-        basicInfo.email = "lingxiaoahao@gmail.com";
 
-        //education
-        educations = new ArrayList<>();
-        Education education1 = new Education();
-        education1.school = "University of Delaware";
-        education1.startDate = DateUtils.stringToDate("08/2014");
-        education1.endDate = DateUtils.stringToDate("12/2016");
-        education1.courses = new ArrayList<>();
-        education1.courses.add("statistic");
-        education1.courses.add("food microbiology");
-
-        Education education2 = new Education();
-        education2.school = "Zhejiang University";
-        education2.startDate = DateUtils.stringToDate("08/2010");
-        education2.endDate = DateUtils.stringToDate("07/2014");
-        education2.courses = new ArrayList<>();
-        education2.courses.add("c programming");
-        education2.courses.add("calculus");
-
-        educations.add(education1);
-        educations.add(education2);
-    }
-
-    private void setupUI() {
-        setContentView(R.layout.activity_main);
-
-        setupEducationUI();
 
     }
 
+    // add all education view to education linearlayout view
     private void setupEducationUI() {
         LinearLayout educationLinearLayout = (LinearLayout) findViewById(R.id.education_item);
-
+        educationLinearLayout.removeAllViews();
         for(Education education : educations) {
             educationLinearLayout.addView(getEducationView(education));
         }
     }
-
+    //get one education item view
     private View getEducationView(Education education) {
         View view = getLayoutInflater().inflate(R.layout.education_item, null);
         String dateString = DateUtils.dateToString(education.startDate) +
@@ -96,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) view.findViewById(R.id.education_course)).setText(formatItem(education.courses));
         return view;
     }
-
+    //transform courses List to string format
     private String formatItem(List<String> item) {
         StringBuilder sb = new StringBuilder();
         for (String s: item) {
