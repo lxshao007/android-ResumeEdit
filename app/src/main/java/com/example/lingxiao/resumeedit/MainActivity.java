@@ -15,31 +15,40 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lingxiao.resumeedit.Utils.DateUtils;
+import com.example.lingxiao.resumeedit.Utils.ModelUtils;
 import com.example.lingxiao.resumeedit.model.BasicInfo;
 import com.example.lingxiao.resumeedit.model.Education;
 import com.example.lingxiao.resumeedit.model.Experience;
 import com.example.lingxiao.resumeedit.model.Project;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private BasicInfo basicInfo;
-    private List<Education> educations = new ArrayList<>();
+    private List<Education> educations;
     private List<Experience> experiences;
     private List<Project> projects;
 
     private static final int REQ_CODE_EDUCATION_EDIT = 100;
+    private static final String MODEL_EDUCATIONS = "education";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        loadData();
         setupUI();
 
 
+    }
+
+    private void loadData() {
+        List<Education> savedEducation = ModelUtils.read(this, MODEL_EDUCATIONS, new TypeToken<List<Education>>(){});
+        educations = savedEducation == null ? new ArrayList<Education>() : savedEducation;
     }
 
     @Override
@@ -111,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         if (!found) {
             educations.add(education);
         }
-//        ModelUtils.save(this, MODEL_EDUCATIONS, educations);
+        ModelUtils.save(this, MODEL_EDUCATIONS, educations);
         setupEducationUI();
     }
 
@@ -124,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
         }
+        ModelUtils.save(this, MODEL_EDUCATIONS, educations);
         setupEducationUI();
     }
 
