@@ -46,8 +46,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQ_CODE_EDUCATION_EDIT && resultCode == Activity.RESULT_OK) {
-            Education education = data.getParcelableExtra(EducationEditActivity.KEY_EDUCATION);
-            updateEducation(education);
+            String educationID = data.getStringExtra(EducationEditActivity.KEY_EDUCATION_ID);
+            if (educationID != null) {
+                deleteEducation(educationID);
+            } else {
+                Education education = data.getParcelableExtra(EducationEditActivity.KEY_EDUCATION);
+                updateEducation(education);
+            }
         }
     }
 
@@ -94,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         return view;
     }
 
+    //edit
     private void updateEducation(Education education) {
         boolean found = false;
         for(int i = 0; i < educations.size(); ++i) {
@@ -108,6 +114,19 @@ public class MainActivity extends AppCompatActivity {
 //        ModelUtils.save(this, MODEL_EDUCATIONS, educations);
         setupEducationUI();
     }
+
+
+    //delete
+    private void deleteEducation(String educationID) {
+        for(int i = 0; i < educations.size(); ++i) {
+            if (TextUtils.equals(educationID, educations.get(i).id)) {
+                educations.remove(i);
+                break;
+            }
+        }
+        setupEducationUI();
+    }
+
     //transform courses List to string format
     private String formatItem(List<String> item) {
         StringBuilder sb = new StringBuilder();

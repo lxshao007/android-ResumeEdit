@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 
 import com.example.lingxiao.resumeedit.Utils.DateUtils;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 
 public class EducationEditActivity extends AppCompatActivity {
     public static final String KEY_EDUCATION = "education";
+    public static final String KEY_EDUCATION_ID = "education_id";
     private Education education;
 
     @Override
@@ -44,6 +46,16 @@ public class EducationEditActivity extends AppCompatActivity {
                 setText(DateUtils.dateToString(education.endDate));
         ((EditText) findViewById(R.id.education_edit_courses)).
                 setText(TextUtils.join("\n", education.courses));
+
+        findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra(KEY_EDUCATION_ID, education.id);
+                setResult(RESULT_OK, resultIntent);
+                finish();
+            }
+        });
     }
 
     //setup view
@@ -68,6 +80,7 @@ public class EducationEditActivity extends AppCompatActivity {
             case R.id.ic_save:
                 saveAndExit();
                 return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
