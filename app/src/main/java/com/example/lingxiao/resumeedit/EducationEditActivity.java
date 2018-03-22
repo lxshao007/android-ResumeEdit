@@ -12,6 +12,8 @@ import android.widget.EditText;
 import com.example.lingxiao.resumeedit.Utils.DateUtils;
 import com.example.lingxiao.resumeedit.model.Education;
 
+import org.w3c.dom.Text;
+
 import java.util.Arrays;
 
 public class EducationEditActivity extends AppCompatActivity {
@@ -25,10 +27,38 @@ public class EducationEditActivity extends AppCompatActivity {
         //back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        education = getIntent().getParcelableExtra(KEY_EDUCATION);
+
+        if (education != null) setupUI();
+        setTitle(education == null ? "New Education" : "Edit Education");
+
 
 
     }
 
+    private void setupUI() {
+        ((EditText) findViewById(R.id.education_edit_school)).setText(education.school);
+        ((EditText) findViewById(R.id.education_edit_starttime)).
+                setText(DateUtils.dateToString(education.startDate));
+        ((EditText) findViewById(R.id.education_edit_endtime)).
+                setText(DateUtils.dateToString(education.endDate));
+        ((EditText) findViewById(R.id.education_edit_courses)).
+                setText(TextUtils.join("\n", education.courses));
+    }
+
+    //setup view
+    private void setupEditEducationView() {
+
+    }
+
+    //add save button view on menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        return true;
+    }
+
+    //menu selected
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -40,14 +70,6 @@ public class EducationEditActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-
-    //add save button view on menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_edit, menu);
-        return true;
     }
 
     //collect data

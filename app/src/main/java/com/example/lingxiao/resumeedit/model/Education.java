@@ -7,13 +7,14 @@ import com.example.lingxiao.resumeedit.Utils.DateUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by lingxiao on 3/20/18.
  */
 
 public class Education implements Parcelable{
-//    public String id;
+    public String id;
 
     public String school;
 
@@ -23,10 +24,12 @@ public class Education implements Parcelable{
 
     public List<String> courses;
 
-    public Education(){}
+    public Education(){
+        id = UUID.randomUUID().toString();
+    }
 
     protected Education(Parcel in) {
-        //id = in.readString();
+        id = in.readString();
         school = in.readString();
         startDate = DateUtils.stringToDate(in.readString());
         endDate = DateUtils.stringToDate(in.readString());
@@ -35,7 +38,7 @@ public class Education implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        //dest.writeString(id);
+        dest.writeString(id);
         dest.writeString(school);
         dest.writeString(DateUtils.dateToString(startDate));
         dest.writeString(DateUtils.dateToString(endDate));
